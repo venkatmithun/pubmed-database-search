@@ -1,0 +1,43 @@
+.App {
+  margin: 0;
+  text-align: center;
+  background-color: aliceblue;
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.search {
+  padding: 10px 0px;
+  width: 100%;
+}
+
+.search-input {
+  border: solid #ccc;
+  border-width: 1px 1px 1px 1px;
+  border-radius: 8px 0px 0px 8px;
+  font-size: 16px;
+  font-weight: 200;
+  width: 40%;
+  height: 40px;
+  padding: 0px 10px;
+  min-width: 200px;
+  outline-width: 0;
+}
+
+.search-button {
+  height: 42px;
+  width: 70px;
+  font-size: 16px;
+  border: solid #ccc;
+  border-width: 1px 1px 1px 1px;
+  border-radius: 0px 8px 8px 0px;
+  padding: 0px 10px;
+  outline-width: 0;
+}
+
+.search-results {
+  flex: 1;
+}
