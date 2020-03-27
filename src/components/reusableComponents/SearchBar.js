@@ -1,4 +1,4 @@
-import React, { form, input } from "react";
+import React from "react";
 
 const SearchBar = React.memo(
   ({
@@ -7,7 +7,8 @@ const SearchBar = React.memo(
     searchInput,
     offline,
     handleSubmitHover,
-    submitHover
+    submitHover,
+    loading
   }) => {
     return (
       <div className="search">
@@ -24,11 +25,11 @@ const SearchBar = React.memo(
             className="search-button"
             onClick={handleClick}
             value={offline ? "Offline" : "Search"}
-            disabled={offline}
+            disabled={offline || loading}
             style={{
               backgroundColor: offline
                 ? "#CD5C5C"
-                : submitHover
+                : submitHover || loading
                 ? "rgba(51, 51, 51, 0.5)"
                 : "#f0f0f2",
               color: offline || submitHover ? "#ffffff" : "#383839",

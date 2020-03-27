@@ -6,11 +6,11 @@
   align-items: safe center;
   justify-content: center;
   flex-direction: column;
-  height: 100%;
+  min-height: 100%;
 }
 
 .search {
-  padding: 10px 0px;
+  margin: 10px 0px;
   width: 100%;
 }
 
@@ -40,4 +40,11 @@
 
 .search-results {
   flex: 1;
+}
+
+.search-result {
+  text-align: left;
+  margin: 20px;
+  padding: 10px;
+  cursor: pointer;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/App.css";
-import SearchBar from "./SearchBar";
+import SearchBar from "./reusableComponents/SearchBar";
 import Api from "../state/api";
 import extractInfo from "../state/processor";
 
@@ -15,75 +15,77 @@ class App extends React.Component {
       searchInput: "",
       offline: !navigator.onLine,
       submitHover: false,
-      articles: {}
+      articles: { "": [] },
+      error: "",
+      loading: false,
+      curSearch: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmitHover = this.handleSubmitHover.bind(this);
-    /* 
-    PubmedArticle
-      MedlineCitation
-        PMID -------------------------------
-        Article
-          Journal
-            JournalIssue
-              PubDate -------------------------------
-          ArticleTitle ----------------------------------
-          Abstract ----------------------------------------
-            AbstractText
-          AuthorList [last one is last author]
-            Author ------------------------------------------
-              LastName
-              ForeName
-              Initials
-        ChemicalList------------------------------------
-          Chemical
-            NameOfSubstance 
-        MeshHeadingList ------------------------------------------
-          MeshHeading 
-            DescriptorName 
-    */
   }
 
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener("offline", () => this.setState({ offline: true }));
     window.addEventListener("online", () => this.setState({ offline: false }));
   }
 
-  async handleClick(e) {
+  handleClick(e) {
     e.preventDefault();
-    try {
-      let { searchInput, articles } = this.state;
-      searchInput = searchInput.trim();
-      if (searchInput.length > 0) {
-        if (searchInput in articles) {
-          this.setState({ curResult: articles[searchInput] });
-        } else {
-          const result = await Api.get(searchInput);
-          console.log(result);
-          if (
-            result.PubmedArticleSet &&
-            result.PubmedArticleSet.PubmedArticle
-          ) {
-            const curResponse = extractInfo(
-              result.PubmedArticleSet.PubmedArticle
-            );
-            articles[searchInput] = curResponse;
-            this.setState({
-              articles: { ...articles },
-              searchInput
-            });
+    this.setState(
+      {
+        loading: true
+      },
+      async () => {
+        try {
+          let { searchInput, articles } = this.state;
+          searchInput = searchInput.trim();
+          if (searchInput.length > 0) {
+            if (searchInput in articles) {
+              this.setState({
+                curResult: articles[searchInput],
+                loading: false,
+                curSearch: searchInput,
+                error: ""
+              });
+            } else {
+              const result = await Api.get(searchInput);
+              // console.log(result);
+              if (
+                result.PubmedArticleSet &&
+                result.PubmedArticleSet.PubmedArticle
+              ) {
+                const curResponse = extractInfo(
+                  result.PubmedArticleSet.PubmedArticle
+                );
+                articles[searchInput] = curResponse;
+                this.setState({
+                  articles: { ...articles },
+                  searchInput,
+                  loading: false,
+                  curSearch: searchInput,
+                  error: ""
+                });
+              } else {
+                this.setState({
+                  loading: false,
+                  error: "",
+                  curSearch: searchInput
+                });
+              }
+            }
           } else {
-            alert("No results");
+            this.setState({
+              loading: false,
+              error: "Please enter keywords to search!"
+            });
           }
+        } catch (e) {
+          console.log("error", e);
+          this.setState({ error: "Error! Please try again.", loading: false });
         }
-      } else {
-        alert("Please type something before search!");
       }
-    } catch (e) {
-      alert(e);
-      this.setState({ error: e });
-    }
+    );
   }
 
   handleChange(e) {
@@ -95,7 +97,15 @@ class App extends React.Component {
   }
 
   render() {
-    const { searchInput, offline, submitHover, articles } = this.state;
+    const {
+      searchInput,
+      offline,
+      submitHover,
+      articles,
+      loading,
+      curSearch,
+      error
+    } = this.state;
     return (
       <div className="App">
         <SearchBar
@@ -105,11 +115,15 @@ class App extends React.Component {
           offline={offline}
           handleSubmitHover={this.handleSubmitHover}
           submitHover={submitHover}
+          loading={loading}
         />
         <React.Suspense fallback={<div>Loading ...</div>}>
-          <div className="search-results">
-            <SearchResults articles={articles} />
-          </div>
+          <SearchResults
+            articles={articles}
+            curSearch={curSearch}
+            error={error}
+            loading={loading}
+          />
         </React.Suspense>
       </div>
     );
