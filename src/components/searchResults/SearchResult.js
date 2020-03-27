@@ -15,9 +15,10 @@ export const SearchResult = React.memo(({ article, number }) => {
         setShowAbstract(!showAbstract);
       }}
       style={
-        hover
+        hover && article.Abstract
           ? {
-              boxShadow: "1px 2px 4px rgba(0, 0, 0, .5)"
+              boxShadow: "1px 2px 4px rgba(0, 0, 0, .5)",
+              cursor: "pointer"
             }
           : {}
       }
@@ -34,25 +35,20 @@ export const SearchResult = React.memo(({ article, number }) => {
           {article.ArticleTitle}
         </a>
       </div>
-      <div style={{ paddingLeft: "18px" }}>
-        Published on:{" "}
-        <span style={{ fontWeight: "bold" }}>{article.PubDate}</span>; Last
-        Author: <span style={{ fontWeight: "bold" }}>{article.LastAuthor}</span>
+      <div className="pa-left-18">
+        Published on: <span className="bold-font">{article.PubDate}</span>; Last
+        Author: <span className="bold-font">{article.LastAuthor}</span>
       </div>
       {article.ChemicalNames ? (
-        <div style={{ paddingLeft: "18px" }}>
+        <div className="pa-left-18">
           Chemical Names:{" "}
-          <span style={{ fontWeight: "bold" }}>
-            {article.ChemicalNames.join(", ")}
-          </span>
+          <span className="bold-font">{article.ChemicalNames.join(", ")}</span>
         </div>
       ) : null}
       {article.MeshTerms ? (
-        <div style={{ paddingLeft: "18px" }}>
+        <div className="pa-left-18">
           MeSH Terms:{" "}
-          <span style={{ fontWeight: "bold" }}>
-            {article.MeshTerms.join(", ")}
-          </span>
+          <span className="bold-font">{article.MeshTerms.join(", ")}</span>
         </div>
       ) : null}
       {showAbstract && article.Abstract ? (

@@ -46,5 +46,38 @@
   text-align: left;
   margin: 20px;
   padding: 10px;
-  cursor: pointer;
+}
+
+.loader-container {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.bold-font {
+  font-weight: bold;
+}
+
+.pa-left-18 {
+  padding: 18px;
+}
+
+.loader {
+  border: 5px solid chocolate;
+  border-top: 5px solid #000;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
