@@ -16,7 +16,7 @@ Search through the pubmed articles using this light weight simple react applicat
 3. Article's last author
 4. Article's chemical names
 5. Article's MeSH terms
-6. Article's Abstract
+6. Article's Abstract (shows if it is returned properly)
 
 ## Edge cases handled
 
