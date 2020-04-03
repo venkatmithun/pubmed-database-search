@@ -1,4 +1,4 @@
-## Pubmed-Database
+## Pubmed-Database-Search
 
 Search through the pubmed articles using this light weight simple react application.
 
