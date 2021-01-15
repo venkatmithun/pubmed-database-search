@@ -1,6 +1,6 @@
 ## Pubmed-Database-Search
 
-Search through the pubmed articles using this light weight simple react application.
+Search through the pubmed articles using this light weight simple react application. It is a customizable search tool for PubMed database to enhance the quality of research during COVID-19 pandemic.
 
 ## Installation
 
